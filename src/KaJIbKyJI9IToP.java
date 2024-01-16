@@ -1,21 +1,28 @@
-
-
 import java.util.Scanner;
-
 import static java.lang.Integer.parseInt;
 
 public class KaJIbKyJI9IToP {
-
-    static Scanner scanner = new Scanner(System.in);
     static int number1;
     static int number2;
     static char operation;
     static int result;
+    static String userInput;
+    static String chast1;
+    static String chast2;
 
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Введите выражение: ");
-        String userInput = scanner.nextLine();
+        userInput = scanner.nextLine();
+
+        String FinalResult = calc(userInput);
+        System.out.println("<<< Результат >>>");
+        System.out.println(chast1 + " " + operation + " " + chast2 + " = " + FinalResult);
+    }
+    public static String calc (String input){
+
+        String z = null;
 
         char[] under_char = new char[9];
         for (int i = 0; i < userInput.length(); i++) {
@@ -37,25 +44,24 @@ public class KaJIbKyJI9IToP {
             throw new IllegalArgumentException("СТРОКА ВВЕДЕНА НЕ ПРАВИЛЬНО");
         }
 
-        String userClear = userInput.replace(" ", "");
-        String[] chasti = userClear.split("[+\\-/*]");
-        String chast1 = chasti[0];
-        String chast2 = chasti[1];
+        String inputRep = input.replace(" ", "");
+        String[] chasti = inputRep.split("[+\\-/*]");
+        chast1 = chasti[0];
+        chast2 = chasti[1];
 
-        try{
-            if (chasti[2] != ""){
+        try {
+            if (chasti[2] != "") {
                 throw new IllegalArgumentException("ВВЕДЕНО НЕ ВЕРНОЕ ВЫРАЖЕНИЕ");
             }
-        } catch (ArrayIndexOutOfBoundsException exc){
-        }
+        } catch (ArrayIndexOutOfBoundsException exc) {}
         try {
+
             number1 = parseInt(chast1);
             number2 = parseInt(chast2);
 
             if ((number1 <= 10) & (number2 <= 10) & (number1 > 0) & (number2 > 0)) {
                 result = calculated(number1, number2, operation);
-                System.out.println("_____Результат для арабских цифр_____");
-                System.out.println(number1 + " " + operation + " " + number2 + " = " + result);
+                z = String.valueOf(result);
             } else {
                 throw new IllegalArgumentException("ДОЛЖНЫ ИСПОЛЬЗОВАТЬСЯ ЧИСЛА В ДИАПАЗОНЕ ОТ 1 ДО 10");
             }
@@ -68,16 +74,15 @@ public class KaJIbKyJI9IToP {
                 throw new IllegalArgumentException("НЕ ВЕРНОЕ ВЫРАЖЕНИЕ");
             } else {
                 result = calculated(number1, number2, operation);
-                System.out.println("_____Результат для римских цифр_____");
-
                 try {
                     String resultRoman = convertNumToRoman(result);
-                    System.out.println(chast1 + " " + operation + " " + chast2 + " = " + resultRoman);
+                    z=resultRoman;
                 } catch (ArrayIndexOutOfBoundsException exception) {
                     throw new IllegalArgumentException("В РИМСКОЙ СИСТЕМЕ НЕТ ОТРИЦАТЕЛЬНЫХ ЧИСЕЛ");
                 }
             }
         }
+        return z;
     }
     private static String convertNumToRoman(int numArabian) {
         String[] roman = {"O", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
@@ -135,4 +140,3 @@ public class KaJIbKyJI9IToP {
         return result;
     }
 }
-
